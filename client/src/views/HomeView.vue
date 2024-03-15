@@ -14,9 +14,10 @@ import Wave from '../components/bg/Wave.vue'
   height: 1080px;
   background-color: rgba(0,0,0,1);
   position: relative;
+  overflow: hidden;
   .wave-container {
     position: absolute;
-    top: 0;
+    top: 400px;
     left: 0;
   }
 }
