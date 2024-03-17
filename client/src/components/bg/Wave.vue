@@ -20,7 +20,7 @@ const initWave = () => {
     particles = new Array();
     var PI2 = Math.PI * 2;
     var material = new THREE.ParticleCanvasMaterial( {
-      color: 0xffffff,
+      color: 0xffeeee,
       program: function ( context ) {
         context.beginPath();
         context.arc( 0, 0, 1, 0, PI2, true );
