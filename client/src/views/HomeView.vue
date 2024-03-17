@@ -6,6 +6,8 @@ body      1920  1080
 comment   435   650
 ba-c      1425  100
 game      1425  800
+主窗口大小   1410  786
+主窗口位置   27    147
 -->
 <template>
   <div class="home">
@@ -13,9 +15,14 @@ game      1425  800
     <div class="comment-container">
       <div class="comment-title">COMMENT</div>
     </div>
-    <div class="game-container-before-comment">我已经尽力了 . JPG</div>
+    <div class="game-container-before-comment">
+      <div class="title">INFO</div>
+      <marquee scrollamount="10">阿巴阿巴阿巴</marquee>
+    </div>
     <div class="game-container"></div>
-    <div class="game-container-after-comment">阿巴阿巴阿巴阿巴阿巴</div>
+    <div class="game-container-after-comment">
+      <div class="title">SPECTRALIZER</div>
+    </div>
   </div>
 </template>
 
@@ -24,7 +31,19 @@ $bg-color: rgb(4, 6, 29);
 $primary: rgb(100,100,236);
 $primary-a1: rgb(100,100,236, .1);
 $primary-a4: rgb(100,100,236, .4);
-$box-main: rgb(124, 124, 246);
+$box-main: rgba(124, 124, 246, .5);
+
+//$bg-color: rgb(252, 202, 210);
+//$primary: rgb(248, 63, 95);
+//$primary-a1: rgb(248, 63, 95, .1);
+//$primary-a4: rgb(248, 63, 95, .4);
+//$box-main: rgb(252, 106, 130);
+
+//$bg-color: rgb(4, 6, 29);
+//$primary: rgb(0,33,255);
+//$primary-a1: rgb(0,33,255, .1);
+//$primary-a4: rgb(0,33,255, .4);
+//$box-main: rgb(0,33,255);
 .home {
   width: 1920px;
   height: 1080px;
@@ -85,10 +104,22 @@ $box-main: rgb(124, 124, 246);
   .game-container {
     width: 1425px;
     height: 800px;
-    background-color: #444;
+    background-color: $box-main;
+    border-radius: 20px;
     position: absolute;
     left: 20px;
     top: 140px;
+    &:before {
+      content: '';
+      display: block;
+      width: 1415px;
+      height: 790px;
+      border: 2px dashed #fff;
+      border-radius: 20px;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+    }
   }
   .game-container-before-comment,
   .game-container-after-comment{
@@ -115,6 +146,28 @@ $box-main: rgb(124, 124, 246);
       position: absolute;
       top: 5px;
       left: 5px;
+    }
+    .title {
+      display: block;
+      color: #fff;
+      position: absolute;
+      top: -30px;
+      font-size: 50px;
+      line-height: 1;
+      padding: 10px 0;
+      font-weight: bolder;
+      text-shadow: 3px 3px 20px #000;
+    }
+  }
+  .game-container-before-comment {
+    height: 80px;
+    top: 40px;
+    font-size: 40px;
+    &:before {
+      height: 70px;
+    }
+    .title {
+      top: -40px;
     }
   }
   .game-container-after-comment {
