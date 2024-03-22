@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Wave from '@/components/bg/Wave.vue'
 import ViewBox from '@/components/ViewBox.vue'
+import Clock from '@/components/Clock.vue'
 </script>
 <!--
 body      1920  1080
@@ -13,6 +14,7 @@ game      1425  800
 <template>
   <div class="home">
     <Wave class="wave-container"/>
+    <Clock class="clock-view" width="380" height="120"/>
     <ViewBox
       width="435"
       height="640"
@@ -21,12 +23,12 @@ game      1425  800
     >
     </ViewBox>
     <ViewBox
-      width="1425"
+      width="1025"
       height="80"
       title="INFO"
       class="game-container-before-comment"
     >
-      <marquee scrollamount="10">阿巴阿巴阿巴</marquee>
+      <marquee scrollamount="10">阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴</marquee>
     </ViewBox>
     <ViewBox
       width="1425"
@@ -112,6 +114,11 @@ game      1425  800
     position: absolute;
     bottom: 20px;
     left: 20px;
+  }
+  .clock-view {
+    position: absolute;
+    left: 1065px;
+    top: 0;
   }
 }
 </style>
