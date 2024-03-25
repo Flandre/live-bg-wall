@@ -34,7 +34,8 @@ defineProps({
   border-radius: 20px;
   font-size: 50px;
   color: #fff;
-  padding: 0 20px;
+  padding: 8px 20px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: flex-start;

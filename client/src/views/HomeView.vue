@@ -26,7 +26,7 @@ game      1425  800
       title="INFO"
       class="game-container-before-comment"
     >
-      <marquee scrollamount="10">阿巴阿巴阿巴</marquee>
+      <marquee scrollamount="10">阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴</marquee>
     </ViewBox>
     <ViewBox
       width="1425"
@@ -75,28 +75,6 @@ game      1425  800
     position: absolute;
     right: 20px;
     top:40px;
-    &:before {
-      content: '';
-      display: block;
-      width: 425px;
-      height: 630px;
-      border: 2px dashed #fff;
-      border-radius: 20px;
-      position: absolute;
-      top: 5px;
-      left: 5px;
-    }
-    .comment-title {
-      display: block;
-      color: #fff;
-      position: absolute;
-      top: -40px;
-      font-size: 60px;
-      line-height: 1;
-      padding: 10px 20px;
-      font-weight: bolder;
-      text-shadow: 3px 3px 20px #000;
-    }
   }
   .game-container-before-comment {
     position: absolute;
