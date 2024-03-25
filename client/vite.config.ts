@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     vue(),
     vueJsx(),
@@ -21,9 +22,5 @@ export default defineConfig({
         additionalData: `@import "@/assets/theme.scss";`
       }
     }
-  },
-  server: {
-    host: '0.0.0.0',
-    port: 15170
   }
 })

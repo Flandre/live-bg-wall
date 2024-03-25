@@ -14,31 +14,31 @@ game      1425  800
 <template>
   <div class="home">
     <Wave class="wave-container"/>
-    <Clock class="clock-view" width="380" height="120"/>
+    <Clock class="clock-view" :width="380" :height="120"/>
     <ViewBox
-      width="435"
-      height="640"
+      :width="435"
+      :height="640"
       title="COMMENT"
       class="comment-container"
     >
     </ViewBox>
     <ViewBox
-      width="1025"
-      height="80"
+      :width="1025"
+      :height="80"
       title="INFO"
       class="game-container-before-comment"
     >
       <marquee scrollamount="10">阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴</marquee>
     </ViewBox>
     <ViewBox
-      width="1425"
-      height="800"
+      :width="1425"
+      :height="800"
       class="game-container"
     >
     </ViewBox>
     <ViewBox
-      width="1425"
-      height="100"
+      :width="1425"
+      :height="100"
       class="game-container-after-comment"
       title="SPECTRALIZER"
     >
