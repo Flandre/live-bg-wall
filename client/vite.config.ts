@@ -21,5 +21,9 @@ export default defineConfig({
         additionalData: `@import "@/assets/theme.scss";`
       }
     }
+  },
+  server: {
+    host: '0.0.0.0',
+    post: 15170
   }
 })
