@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import {useRoute} from "vue-router"
 import Wave from '@/components/bg/Wave.vue'
 import ViewBox from '@/components/ViewBox.vue'
 import Clock from '@/components/Clock.vue'
+const route = useRoute()
 </script>
 <!--
 body      1920  1080
@@ -28,7 +30,7 @@ game      1425  800
       title="INFO"
       class="game-container-before-comment"
     >
-      <marquee scrollamount="10">阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴</marquee>
+      <marquee scrollamount="10">{{route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'}}</marquee>
     </ViewBox>
     <ViewBox
       :width="1425"
