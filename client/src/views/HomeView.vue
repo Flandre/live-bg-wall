@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router"
-import Wave from '@/components/bg/Wave.vue'
 import ViewBox from '@/components/ViewBox.vue'
 import Clock from '@/components/Clock.vue'
+
+import Wave from '@/components/bg/Wave.vue'
+import Hack from "@/components/bg/Hack.vue";
+
 const route = useRoute()
 </script>
 <!--
@@ -15,7 +18,8 @@ game      1425  800
 -->
 <template>
   <div class="home">
-    <Wave class="wave-container"/>
+<!--    <Wave class="wave-container"/>-->
+    <Hack class="bg-container" style="opacity: 0.4"/>
     <Clock class="clock-view" :width="380" :height="120"/>
     <ViewBox
       :width="435"
@@ -75,6 +79,11 @@ game      1425  800
     top: 400px;
     left: 0;
   }
+  .bg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   .comment-container {
     position: absolute;
     right: 20px;
@@ -84,6 +93,15 @@ game      1425  800
     position: absolute;
     top: 40px;
     left: 20px;
+    marquee {
+      font-family: 'MeiGanSX';
+      padding-top: 10px;
+      box-sizing: border-box;
+      padding-bottom: 6px;
+      height: 100%;
+      font-size: 46px;
+      line-height: 54px;
+    }
   }
   .game-container {
     position: absolute;
