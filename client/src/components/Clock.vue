@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
   border-radius: 0 0 20px 20px;
   box-shadow:
     inset 5px 5px 10px 0px rgba(0, 0, 0, 0.46),
-    5px 5px 20px rgba(160, 163, 249, 0.43),
+    5px 5px 20px $primary-a4,
     18px 20px 20px rgb(0 0 0 / 5%),
     inset 0px 0px 0px rgba(255, 255, 255, 0.25);
   text-align: center;
@@ -161,7 +161,7 @@ onBeforeUnmount(() => {
       margin-top: 5px;
       &.visible {
         opacity: 1;
-        text-shadow: 1px 1px 0 #2c6299;
+        text-shadow: 1px 1px 0 $primary;
       }
       &.near {
         opacity: .15;

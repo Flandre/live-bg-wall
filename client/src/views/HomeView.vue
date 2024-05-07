@@ -19,7 +19,7 @@ game      1425  800
 <template>
   <div class="home">
 <!--    <Wave class="wave-container"/>-->
-    <Hack class="bg-container" style="opacity: 0.4"/>
+    <Hack class="bg-container" style="opacity: 0.6"/>
     <Clock class="clock-view" :width="380" :height="120"/>
     <ViewBox
       :width="435"
