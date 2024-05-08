@@ -56,7 +56,7 @@ game      1425  800
 .home {
   width: 1920px;
   height: 1080px;
-  background-color: $bg-color;
+  background-color: var(--bg-color);
   position: relative;
   overflow: hidden;
   &:before {
@@ -64,11 +64,11 @@ game      1425  800
     display: block;
     width: 0px;
     height: 0px;
-    border: 800px solid $primary-a1;
+    border: 800px solid var(--primary-a1);
     border-left-width: 1500px;
     border-right-width: 1500px;
     border-radius: 50% 70%;
-    box-shadow: 0 0 250px 200px $primary-a4;
+    box-shadow: 0 0 250px 200px var(--primary-a4);
     position: absolute;
     right: -1500px;
     top: -800px;

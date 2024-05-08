@@ -30,17 +30,17 @@ defineProps({
 .view-box {
   width: 1425px;
   height: 100px;
-  background-color: $box-main;
+  background-color: var(--secondary-a5);
   border-radius: 20px;
   font-size: 50px;
-  color: #fff;
+  color: var(--text-color);
   padding: 8px 20px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   .view-border {
-    border: 2px dashed #fff;
+    border: 2px dashed var(--border-color);
     border-radius: 20px;
     position: absolute;
     top: 5px;
@@ -48,14 +48,14 @@ defineProps({
   }
   .title {
     display: block;
-    color: #fff;
+    color: var(--title-text-color);
     position: absolute;
     top: -20px;
     font-size: 40px;
     line-height: 1;
     padding: 0 10px;
     font-weight: bolder;
-    text-shadow: 3px 3px 20px #000;
+    text-shadow: 3px 3px 20px var(--title-text-shadow);
   }
 }
 </style>

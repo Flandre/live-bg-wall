@@ -13,3 +13,6 @@ import { RouterLink, RouterView } from 'vue-router'
   border: 0;
 }
 </style>
+<style lang="scss">
+@import './assets/theme.scss';
+</style>

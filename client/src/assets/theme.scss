@@ -1,17 +1,47 @@
-$bg-color: rgb(4, 6, 29);
-$primary: rgb(100,100,236);
-$primary-a1: rgb(100,100,236, .1);
-$primary-a4: rgb(100,100,236, .4);
-$box-main: rgba(124, 124, 246, .5);
+@function generate-alpha-variables($color, $name) {
+  $variables: ();
+  @for $i from 1 through 9 {
+    $alpha: $i * 0.1;
+    $variables: map-merge($variables, (#{--#{$name}-a#{$i}}: rgba($color, $alpha)));
+  }
+  @return $variables;
+}
 
-//$bg-color: rgb(236, 155, 168);
-//$primary: rgb(248, 63, 95);
-//$primary-a1: rgb(248, 63, 95, .1);
-//$primary-a4: rgb(248, 63, 95, .4);
-//$box-main: rgb(252, 106, 130);
+:root {
+  $primary: #6464EC;
+  $secondary: #7C7CF6;
+  $text-color: #fff;
+  $shadow-color: #04061D;
+  $border-color: #fff;
 
-//$bg-color: rgb(4, 6, 29);
-//$primary: rgb(0,33,255);
-//$primary-a1: rgb(0,33,255, .1);
-//$primary-a4: rgb(0,33,255, .4);
-//$box-main: rgb(0,33,255);
+  /* bg */
+  --bg-color: #{$shadow-color};
+  /* theme */
+  --text-color: #{$text-color};
+  --primary: #{$primary};
+  $alpha-variables: generate-alpha-variables($primary, "primary");
+  @each $name, $value in $alpha-variables {
+    #{$name}: $value;
+  }
+  --secondary: #{$secondary};
+  $alpha-variables: generate-alpha-variables($secondary, "secondary");
+  @each $name, $value in $alpha-variables {
+    #{$name}: $value;
+  }
+  /* view box */
+  --border-color: #{$border-color};
+  --title-text-color: #{$text-color};
+  --title-text-shadow: #{$shadow-color};
+
+
+
+  //.pink {
+  //  $primary: #FED1D6;
+  //  --bg-color: #EC9BA8;
+  //  --primary: #{$primary};
+  //  $alpha-variables: generate-alpha-variables($primary, "primary");
+  //  @each $name, $value in $alpha-variables {
+  //    #{$name}: $value;
+  //  }
+  //}
+}
