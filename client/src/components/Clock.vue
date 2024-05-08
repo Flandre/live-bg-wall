@@ -130,16 +130,18 @@ onBeforeUnmount(() => {
 
 .clock {
   font-family: "Jura";
-  text-shadow: 2px 3px 4px rgb(218 219 255 / 60%);
   display: flex;
   justify-content: center;
   align-content: center;
   border-radius: 0 0 20px 20px;
+  background: var(--clock-bg);
+  border: 1px solid var(--clock-border);
+  border-top: 0px;
   box-shadow:
-    inset 5px 5px 10px 0px rgba(0, 0, 0, 0.46),
-    5px 5px 20px var(--primary-a4),
-    18px 20px 20px rgb(0 0 0 / 5%),
-    inset 0px 0px 0px rgba(255, 255, 255, 0.25);
+    inset 5px 5px 10px 0px var(--clock-box-shadow-color-1),
+    5px 5px 20px var(--clock-box-shadow-color-2),
+    18px 20px 20px var(--clock-box-shadow-color-3),
+    inset 0px 0px 0px var(--clock-box-shadow-color-4);
   text-align: center;
   letter-spacing: 8px;
   padding: 25px 0 ;
@@ -149,7 +151,7 @@ onBeforeUnmount(() => {
     display: block;
     vertical-align: top;
     font-size: 65px;
-    color: #e0e0e0;
+    color: var(--clock-text-color);
     line-height: 50px;
   }
   .column {
@@ -161,7 +163,8 @@ onBeforeUnmount(() => {
       margin-top: 5px;
       &.visible {
         opacity: 1;
-        text-shadow: 1px 1px 0 var(--primary);
+        //text-shadow: 2px 3px 4px var(--primary-a6);
+        text-shadow: 1px 1px 0 var(--clock-text-shadow);
       }
       &.near {
         opacity: .15;

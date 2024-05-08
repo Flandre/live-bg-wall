@@ -32,6 +32,15 @@
   --border-color: #{$border-color};
   --title-text-color: #{$text-color};
   --title-text-shadow: #{$shadow-color};
+  /* clock */
+  --clock-bg: transparent;
+  --clock-border: transparent;
+  --clock-text-color: #{$text-color};
+  --clock-text-shadow: #{rgba(darken($primary, 30%), 0.9)};
+  --clock-box-shadow-color-1: #{rgba(darken($primary, 50%), 0.45)};
+  --clock-box-shadow-color-2: #{rgba($primary, 0.45)};
+  --clock-box-shadow-color-3: #{rgba(darken($primary, 50%), 0.05)};
+  --clock-box-shadow-color-4: #{rgba(lighten($primary, 50%), 0.25)};
 
 
 
