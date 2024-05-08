@@ -23,13 +23,33 @@ a,
 }
 
 @font-face {
-  font-family: 'MeiGanSX';
-  font-style: normal;
-  src: url(@/assets/fonts/梅干手写体.ttf) format('truetype');
-}
-
-@font-face {
   font-family: 'Mono';
   font-style: normal;
   src: url(@/assets/fonts/JetBrainsMono-Regular.ttf) format('truetype');
+}
+
+/*@font-face {*/
+/*  font-family: 'Harlow Solid Italic';*/
+/*  src: url(@/assets/fonts/HARLOWSI.TTF) format('truetype');*/
+/*}*/
+
+@font-face {
+  font-family: 'LHTFONT';
+  src: url(@/assets/fonts/LHTFONT.ttf) format('truetype');
+}
+
+/*@font-face {*/
+/*  font-family: 'MeiGanSX';*/
+/*  font-style: normal;*/
+/*  src: url(@/assets/fonts/梅干手写体.ttf) format('truetype');*/
+/*}*/
+
+/*@font-face {*/
+/*  font-family: 'SANJILILIANG';*/
+/*  src: url(@/assets/fonts/三极力量体简-粗.ttf) format('truetype');*/
+/*}*/
+
+@font-face {
+  font-family: 'DEYIHEI';
+  src: url(@/assets/fonts/SmileySans-Oblique.ttf.woff2) format('woff2');
 }
