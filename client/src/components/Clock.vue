@@ -21,7 +21,9 @@ const time = reactive({
   m1: 0,
   m2: 0,
   s1: 0,
-  s2: 0
+  s2: 0,
+  d: '',
+  w: 0,
 })
 
 onMounted(() => {
@@ -33,6 +35,8 @@ onMounted(() => {
     time.m2 = ~~(d.getMinutes() % 10)
     time.s1 = ~~(d.getSeconds() / 10)
     time.s2 = ~~(d.getSeconds() % 10)
+    time.d = d.toLocaleDateString('zh-cn', { year: 'numeric', month: 'long', day: 'numeric'})
+    time.w = d.getDay()
   }, 500)
 })
 onBeforeUnmount(() => {
@@ -43,6 +47,14 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="clock" :style="{ width: width + 'px', height: height + 'px' }">
+    <div class="date-container">
+      <div class="date-text">
+        {{time.d}}
+      </div>
+      <div class="week">
+        {{['SUN','MON','TUE','WED','THU','FRI','SAT'][time.w]}}
+      </div>
+    </div>
     <div class="column"
          :style="{ transform: `translateY(-${time.h1 * 55}px)`}"
     >
@@ -144,8 +156,36 @@ onBeforeUnmount(() => {
     inset 0px 0px 0px var(--clock-box-shadow-color-4);
   text-align: center;
   letter-spacing: 8px;
-  padding: 25px 0 ;
+  padding: 40px 0 10px;
   overflow: hidden;
+  .date-container {
+    width: 100%;
+    height: 30px;
+    //border-bottom: 1px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    .date-text {
+      color: var(--clock-date-text-color);
+      background: var(--clock-date-bg);
+      font-size: 18px;
+      font-weight: bold;
+      padding: 0 10px 0 20px;
+      flex-grow: 1;
+    }
+    .week {
+      padding: 0 10px 0 20px;
+      color: var(--clock-date-bg);
+      background: var(--clock-date-text-color);
+      align-items: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
   .colon,
   .column {
     display: block;
