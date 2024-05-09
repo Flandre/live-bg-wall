@@ -17,7 +17,7 @@ game      1425  800
 主窗口位置   27    147
 -->
 <template>
-  <div class="home">
+  <div class="home" :class="route?.query?.theme">
 <!--    <Wave class="wave-container"/>-->
     <Hack class="bg-container" style="opacity: 0.6"/>
     <Clock class="clock-view" :width="380" :height="120"/>

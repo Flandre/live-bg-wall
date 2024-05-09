@@ -33,7 +33,7 @@
   --title-text-color: #{$text-color};
   --title-text-shadow: #{$shadow-color};
   /* clock */
-  --clock-bg: transparent;
+  --clock-bg: #{rgba(darken($secondary, 5%), 0.3)};
   --clock-border: transparent;
   --clock-text-color: #{$text-color};
   --clock-text-shadow: #{rgba(darken($primary, 30%), 0.9)};
@@ -44,7 +44,117 @@
   --clock-date-bg: #fff;
   --clock-date-text-color: #{$primary};
 
+  .dark-blue, .theme-1 {
+    $primary: #574f7d;
+    $secondary: #95adbe;
+    $text-color: #e0f0ea;
+    $shadow-color: #503a65;
+    $border-color: #e0f0ea;
 
+    /* bg */
+    --bg-color: #{$shadow-color};
+    /* theme */
+    --text-color: #{$text-color};
+    --primary: #{$primary};
+    $alpha-variables: generate-alpha-variables($primary, "primary");
+    @each $name, $value in $alpha-variables {
+      #{$name}: $value;
+    }
+    --secondary: #{$secondary};
+    $alpha-variables: generate-alpha-variables($secondary, "secondary");
+    @each $name, $value in $alpha-variables {
+      #{$name}: $value;
+    }
+    /* view box */
+    --border-color: #{$border-color};
+    --title-text-color: #{$text-color};
+    --title-text-shadow: #{$shadow-color};
+    /* clock */
+    --clock-bg: #{rgba(darken($secondary, 5%), 0.3)};
+    --clock-border: transparent;
+    --clock-text-color: #{$text-color};
+    --clock-text-shadow: #{rgba(darken($primary, 30%), 0.9)};
+    --clock-box-shadow-color-1: #{rgba(darken($primary, 50%), 0.45)};
+    --clock-box-shadow-color-2: #{rgba($primary, 0.45)};
+    --clock-box-shadow-color-3: #{rgba(darken($primary, 50%), 0.05)};
+    --clock-box-shadow-color-4: #{rgba(lighten($primary, 50%), 0.25)};
+    --clock-date-bg: #fff;
+    --clock-date-text-color: #{$primary};
+  }
+  .liuying, .theme-2 {
+    $primary: #4D8997;
+    $secondary: #c1f9ff;
+    $text-color: #fff;
+    $shadow-color: #36656a;
+    $border-color: #e0fcff;
+
+    /* bg */
+    --bg-color: #{$shadow-color};
+    /* theme */
+    --text-color: #{$text-color};
+    --primary: #{$primary};
+    $alpha-variables: generate-alpha-variables($primary, "primary");
+    @each $name, $value in $alpha-variables {
+      #{$name}: $value;
+    }
+    --secondary: #{$secondary};
+    $alpha-variables: generate-alpha-variables($secondary, "secondary");
+    @each $name, $value in $alpha-variables {
+      #{$name}: $value;
+    }
+    /* view box */
+    --border-color: #{$border-color};
+    --title-text-color: #{$text-color};
+    --title-text-shadow: #{$shadow-color};
+    /* clock */
+    --clock-bg: #{rgba(darken($secondary, 5%), 0.3)};
+    --clock-border: transparent;
+    --clock-text-color: #{$text-color};
+    --clock-text-shadow: #{rgba(darken($primary, 30%), 0.9)};
+    --clock-box-shadow-color-1: #{rgba(darken($primary, 50%), 0.45)};
+    --clock-box-shadow-color-2: #{rgba($primary, 0.45)};
+    --clock-box-shadow-color-3: #{rgba(darken($primary, 50%), 0.05)};
+    --clock-box-shadow-color-4: #{rgba(lighten($primary, 50%), 0.25)};
+    --clock-date-bg: #fff;
+    --clock-date-text-color: #{$primary};
+  }
+  .pink, .theme-3 {
+    $primary: #ff6680;
+    $secondary: #ffb3c8;
+    $text-color: #fff;
+    $shadow-color: #b34766;
+    $border-color: #ffd9e4;
+
+    /* bg */
+    --bg-color: #{$shadow-color};
+    /* theme */
+    --text-color: #{$text-color};
+    --primary: #{$primary};
+    $alpha-variables: generate-alpha-variables($primary, "primary");
+    @each $name, $value in $alpha-variables {
+      #{$name}: $value;
+    }
+    --secondary: #{$secondary};
+    $alpha-variables: generate-alpha-variables($secondary, "secondary");
+    @each $name, $value in $alpha-variables {
+      #{$name}: $value;
+    }
+    /* view box */
+    --border-color: #{$border-color};
+    --title-text-color: #{$text-color};
+    --title-text-shadow: #{$shadow-color};
+    /* clock */
+    --clock-bg: #{rgba(darken($secondary, 5%), 0.3)};
+    --clock-border: transparent;
+    --clock-text-color: #{$text-color};
+    --clock-text-shadow: #{rgba(darken($primary, 30%), 0.9)};
+    --clock-box-shadow-color-1: #{rgba(darken($primary, 50%), 0.45)};
+    --clock-box-shadow-color-2: #{rgba($primary, 0.45)};
+    --clock-box-shadow-color-3: #{rgba(darken($primary, 50%), 0.05)};
+    --clock-box-shadow-color-4: #{rgba(lighten($primary, 50%), 0.25)};
+    --clock-date-bg: #fff;
+    --clock-date-text-color: #{$primary};
+  }
 
   //.pink {
   //  $primary: #FED1D6;
