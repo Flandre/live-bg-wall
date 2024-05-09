@@ -94,7 +94,7 @@ game      1425  800
     top: 40px;
     left: 20px;
     marquee {
-      font-family: 'DEYIHEI';
+      font-family: 'hanyiwenhei';
       padding-top: 10px;
       box-sizing: border-box;
       padding-bottom: 6px;

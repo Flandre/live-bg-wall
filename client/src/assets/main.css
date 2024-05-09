@@ -53,3 +53,8 @@ a,
   font-family: 'DEYIHEI';
   src: url(@/assets/fonts/SmileySans-Oblique.ttf.woff2) format('woff2');
 }
+
+@font-face {
+  font-family: 'hanyiwenhei';
+  src: url(@/assets/fonts/hk4e_zh-cn.ttf) format('truetype');
+}
