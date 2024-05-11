@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router"
 import ViewBox from '@/components/ViewBox.vue'
-import Clock from '@/components/Clock.vue'
-
+// import Clock from '@/components/Clock.vue'
+//
 import Wave from '@/components/bg/Wave.vue'
 import Hack from "@/components/bg/Hack.vue";
+import Rain from "@/components/bg/Rain.vue";
 
 const route = useRoute()
 </script>
@@ -20,6 +21,7 @@ game      1425  800
   <div class="home" :class="route?.query?.theme">
 <!--    <Wave class="wave-container"/>-->
     <Hack class="bg-container" style="opacity: 0.6"/>
+<!--    <Rain class="bg-container"/>-->
     <Clock class="clock-view" :width="380" :height="120"/>
     <ViewBox
       :width="435"
