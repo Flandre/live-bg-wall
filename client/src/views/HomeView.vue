@@ -36,7 +36,8 @@ game      1425  800
       title="INFO"
       class="game-container-before-comment"
     >
-      <marquee scrollamount="10">{{route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'}}</marquee>
+      <div class="content nowrap" v-if="route.query.pause || (route.query.q && route.query.q.length <= 20)">{{route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'}}</div>
+      <marquee class="content" scrollamount="10" v-else>{{route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'}}</marquee>
     </ViewBox>
     <ViewBox
       :width="1425"
@@ -95,7 +96,7 @@ game      1425  800
     position: absolute;
     top: 40px;
     left: 20px;
-    marquee {
+    .content {
       font-family: 'hanyiwenhei';
       padding-top: 10px;
       box-sizing: border-box;
@@ -103,6 +104,10 @@ game      1425  800
       height: 100%;
       font-size: 46px;
       line-height: 54px;
+    }
+    .nowrap {
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
   .game-container {
