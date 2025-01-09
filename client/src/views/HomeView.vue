@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router"
 import ViewBox from '@/components/ViewBox.vue'
-// import Clock from '@/components/Clock.vue'
-//
+import Clock from '@/components/Clock.vue'
+
 import Wave from '@/components/bg/Wave.vue'
 import Hack from "@/components/bg/Hack.vue";
 import Rain from "@/components/bg/Rain.vue";
+
 
 const route = useRoute()
 </script>
@@ -36,8 +37,8 @@ game      1425  800
       title="INFO"
       class="game-container-before-comment"
     >
-      <div class="content nowrap" v-if="route.query.pause || (route.query.q && route.query.q.length <= 20)">{{route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'}}</div>
-      <marquee class="content" scrollamount="10" v-else>{{route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'}}</marquee>
+      <div class="content nowrap" v-if="route.query.pause || (route.query.q && route.query.q.length <= 20)" v-html="route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'"></div>
+      <marquee class="content" scrollamount="10" v-else v-html="route.query.q || '阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴阿巴'"></marquee>
     </ViewBox>
     <ViewBox
       :width="1425"
