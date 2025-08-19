@@ -1,0 +1,43 @@
+@use 'functions' as *;
+
+// 生成主题 CSS 变量的 mixin
+@mixin generate-theme-variables($theme-config) {
+  $primary: map-get($theme-config, 'primary');
+  $secondary: map-get($theme-config, 'secondary');
+  $text-color: map-get($theme-config, 'text-color');
+  $shadow-color: map-get($theme-config, 'shadow-color');
+  $border-color: map-get($theme-config, 'border-color');
+
+  /* bg */
+  --bg-color: #{$shadow-color};
+  
+  /* theme */
+  --text-color: #{$text-color};
+  --primary: #{$primary};
+  $alpha-variables: generate-alpha-variables($primary, "primary");
+  @each $name, $value in $alpha-variables {
+    #{$name}: $value;
+  }
+  --secondary: #{$secondary};
+  $alpha-variables: generate-alpha-variables($secondary, "secondary");
+  @each $name, $value in $alpha-variables {
+    #{$name}: $value;
+  }
+  
+  /* view box */
+  --border-color: #{$border-color};
+  --title-text-color: #{$text-color};
+  --title-text-shadow: #{$shadow-color};
+  
+  /* clock */
+  --clock-bg: #{rgba(darken($secondary, 5%), 0.3)};
+  --clock-border: transparent;
+  --clock-text-color: #{$text-color};
+  --clock-text-shadow: #{rgba(darken($primary, 30%), 0.9)};
+  --clock-box-shadow-color-1: #{rgba(darken($primary, 50%), 0.45)};
+  --clock-box-shadow-color-2: #{rgba($primary, 0.45)};
+  --clock-box-shadow-color-3: #{rgba(darken($primary, 50%), 0.05)};
+  --clock-box-shadow-color-4: #{rgba(lighten($primary, 50%), 0.25)};
+  --clock-date-bg: #fff;
+  --clock-date-text-color: #{$primary};
+} 

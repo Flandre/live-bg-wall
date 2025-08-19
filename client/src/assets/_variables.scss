@@ -1,0 +1,39 @@
+// 主题颜色配置
+$themes: (
+  'default': (
+    'primary': #6464EC,
+    'secondary': #7C7CF6,
+    'text-color': #fff,
+    'shadow-color': #04061D,
+    'border-color': #fff
+  ),
+  'dark-blue': (
+    'primary': #574f7d,
+    'secondary': #95adbe,
+    'text-color': #e0f0ea,
+    'shadow-color': #503a65,
+    'border-color': #e0f0ea
+  ),
+  'liuying': (
+    'primary': #4D8997,
+    'secondary': #c1f9ff,
+    'text-color': #fff,
+    'shadow-color': #36656a,
+    'border-color': #e0fcff
+  ),
+  'pink': (
+    'primary': #ff6680,
+    'secondary': #ffb3c8,
+    'text-color': #fff,
+    'shadow-color': #b34766,
+    'border-color': #ffd9e4
+  )
+);
+
+// 主题类名映射
+$theme-classes: (
+  'default': ':root',
+  'dark-blue': '.dark-blue, .theme-1',
+  'liuying': '.liuying, .theme-2',
+  'pink': '.pink, .theme-3'
+); 

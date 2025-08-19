@@ -1,0 +1,14 @@
+// 生成透明度变量的函数
+@function generate-alpha-variables($color, $name) {
+  $variables: ();
+  @for $i from 1 through 9 {
+    $alpha: $i * 0.1;
+    $variables: map-merge($variables, (#{--#{$name}-a#{$i}}: rgba($color, $alpha)));
+  }
+  @return $variables;
+}
+
+// 从主题配置中获取颜色的函数
+@function get-theme-color($theme, $color-key) {
+  @return map-get(map-get($theme, $color-key));
+} 
