@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直播统计数据管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .line-group {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .line-group:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .line-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-name {
+            font-weight: bold;
+            color: #495057;
+            min-width: 60px;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #28a745;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .stat-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-decrease {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-increase {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-decrease:hover {
+            background: #c82333;
+        }
+
+        .btn-increase:hover {
+            background: #218838;
+        }
+
+        .btn-reset:hover {
+            background: #5a6268;
+        }
+
+        .global-controls {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .btn-global {
+            padding: 15px 30px;
+            font-size: 16px;
+            margin: 0 10px;
+            border-radius: 8px;
+        }
+
+        .btn-refresh {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-refresh:hover {
+            background: #0056b3;
+        }
+
+        .btn-reset-all {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-reset-all:hover {
+            background: #c82333;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .message.show {
+            transform: translateX(0);
+        }
+
+        .message.success {
+            background: #28a745;
+        }
+
+        .message.error {
+            background: #dc3545;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-item {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .stat-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 直播统计数据管理</h1>
+            <p>轻松管理你的直播统计数据，实时同步到OBS</p>
+        </div>
+
+        <div id="loading" class="loading">
+            <p>📊 正在加载统计数据...</p>
+        </div>
+
+        <div id="statsContainer" class="stats-container" style="display: none;">
+            <!-- 统计数据将在这里动态生成 -->
+        </div>
+
+        <div class="global-controls">
+            <button id="refreshBtn" class="btn btn-global btn-refresh">🔄 刷新数据</button>
+            <button id="resetAllBtn" class="btn btn-global btn-reset-all">🗑️ 重置所有</button>
+        </div>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <script>
+        class StatsManager {
+            constructor() {
+                this.apiBase = '/api';
+                this.init();
+            }
+
+            async init() {
+                await this.loadStats();
+                this.bindEvents();
+            }
+
+            async loadStats() {
+                try {
+                    const response = await fetch(`${this.apiBase}/stats`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.renderStats(result.data);
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('statsContainer').style.display = 'grid';
+                    } else {
+                        this.showMessage('加载数据失败', 'error');
+                    }
+                } catch (error) {
+                    console.error('加载统计数据失败:', error);
+                    this.showMessage('网络错误，无法加载数据', 'error');
+                }
+            }
+
+            renderStats(stats) {
+                const container = document.getElementById('statsContainer');
+                container.innerHTML = '';
+
+                Object.entries(stats).forEach(([lineKey, lineData]) => {
+                    const lineGroup = document.createElement('div');
+                    lineGroup.className = 'line-group';
+                    
+                    const lineTitle = document.createElement('div');
+                    lineTitle.className = 'line-title';
+                    lineTitle.textContent = lineKey === 'line1' ? '第一行数据' : '第二行数据';
+                    lineGroup.appendChild(lineTitle);
+
+                    Object.entries(lineData).forEach(([itemName, value]) => {
+                        const statItem = document.createElement('div');
+                        statItem.className = 'stat-item';
+                        
+                        statItem.innerHTML = `
+                            <div class="stat-name">${itemName}</div>
+                            <div class="stat-value" id="${lineKey}-${itemName}-value">${value}</div>
+                            <div class="stat-controls">
+                                <button class="btn btn-decrease" onclick="statsManager.updateStat('${lineKey}', '${itemName}', 'decrement')">-</button>
+                                <button class="btn btn-increase" onclick="statsManager.updateStat('${lineKey}', '${itemName}', 'increment')">+</button>
+                                <button class="btn btn-reset" onclick="statsManager.resetStat('${lineKey}', '${itemName}')">↻</button>
+                            </div>
+                        `;
+                        
+                        lineGroup.appendChild(statItem);
+                    });
+
+                    container.appendChild(lineGroup);
+                });
+            }
+
+            async updateStat(line, item, action, amount = 1) {
+                try {
+                    const response = await fetch(`${this.apiBase}/stats/${action}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ line, item, amount })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // 更新显示的数值
+                        const valueElement = document.getElementById(`${line}-${item}-value`);
+                        if (valueElement) {
+                            valueElement.textContent = result.data[line][item];
+                            valueElement.style.transform = 'scale(1.2)';
+                            setTimeout(() => {
+                                valueElement.style.transform = 'scale(1)';
+                            }, 200);
+                        }
+                        this.showMessage(`${action === 'increment' ? '增加' : '减少'}成功`, 'success');
+                    } else {
+                        this.showMessage(result.message || '操作失败', 'error');
+                    }
+                } catch (error) {
+                    console.error('更新统计数据失败:', error);
+                    this.showMessage('网络错误，操作失败', 'error');
+                }
+            }
+
+            async resetStat(line, item) {
+                if (!confirm(`确定要重置 ${item} 的数值吗？`)) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${this.apiBase}/stats/reset`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ line, item })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        const valueElement = document.getElementById(`${line}-${item}-value`);
+                        if (valueElement) {
+                            valueElement.textContent = '0';
+                        }
+                        this.showMessage('重置成功', 'success');
+                    } else {
+                        this.showMessage(result.message || '重置失败', 'error');
+                    }
+                } catch (error) {
+                    console.error('重置统计数据失败:', error);
+                    this.showMessage('网络错误，重置失败', 'error');
+                }
+            }
+
+            async resetAll() {
+                if (!confirm('确定要重置所有统计数据吗？此操作不可撤销！')) {
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${this.apiBase}/stats/reset`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        await this.loadStats();
+                        this.showMessage('所有数据已重置', 'success');
+                    } else {
+                        this.showMessage(result.message || '重置失败', 'error');
+                    }
+                } catch (error) {
+                    console.error('重置所有数据失败:', error);
+                    this.showMessage('网络错误，重置失败', 'error');
+                }
+            }
+
+            bindEvents() {
+                document.getElementById('refreshBtn').addEventListener('click', () => {
+                    this.loadStats();
+                    this.showMessage('数据已刷新', 'success');
+                });
+
+                document.getElementById('resetAllBtn').addEventListener('click', () => {
+                    this.resetAll();
+                });
+            }
+
+            showMessage(text, type = 'success') {
+                const messageEl = document.getElementById('message');
+                messageEl.textContent = text;
+                messageEl.className = `message ${type}`;
+                messageEl.classList.add('show');
+                
+                setTimeout(() => {
+                    messageEl.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // 初始化统计管理器
+        const statsManager = new StatsManager();
+    </script>
+</body>
+</html>
