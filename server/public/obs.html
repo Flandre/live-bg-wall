@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地下城统计 - OBS展示</title>
+    <style>
+        @font-face {
+            font-family: 'LHTFONT';
+            src: url('./fonts/LHTFONT.ttf') format('truetype');
+        }
+        
+        @font-face {
+            font-family: 'hanyiwenhei';
+            src: url('./fonts/hk4e_zh-cn.ttf') format('truetype');
+        }
+        
+        @font-face {
+            font-family: 'Jura';
+            src: url('./fonts/Jura.woff2') format('woff2');
+        }
+
+        /* 主题配置 */
+        :root {
+            --primary: #6464EC;
+            --primary-a3: rgba(100, 100, 236, 0.3);
+            --primary-a5: rgba(100, 100, 236, 0.5);
+            --primary-a6: rgba(100, 100, 236, 0.6);
+            --primary-a8: rgba(100, 100, 236, 0.8);
+            --secondary: #7C7CF6;
+            --secondary-a3: rgba(124, 124, 246, 0.3);
+            --secondary-a5: rgba(124, 124, 246, 0.5);
+            --secondary-a8: rgba(124, 124, 246, 0.8);
+            --text-color: #fff;
+            --shadow-color: #04061D;
+            --border-color: #fff;
+            --bg-color: transparent;
+            --title-text-color: #fff;
+            --title-text-shadow: #04061D;
+        }
+
+        /* 深蓝主题 */
+        .theme-dark-blue {
+            --primary: #574f7d;
+            --primary-a3: rgba(87, 79, 125, 0.3);
+            --primary-a5: rgba(87, 79, 125, 0.5);
+            --primary-a6: rgba(87, 79, 125, 0.6);
+            --primary-a8: rgba(87, 79, 125, 0.8);
+            --secondary: #95adbe;
+            --secondary-a3: rgba(149, 173, 190, 0.3);
+            --secondary-a5: rgba(149, 173, 190, 0.5);
+            --secondary-a8: rgba(149, 173, 190, 0.8);
+            --text-color: #e0f0ea;
+            --shadow-color: #503a65;
+            --border-color: #e0f0ea;
+            --title-text-color: #e0f0ea;
+            --title-text-shadow: #503a65;
+        }
+
+        /* 流萤主题 */
+        .theme-liuying {
+            --primary: #4D8997;
+            --primary-a3: rgba(77, 137, 151, 0.3);
+            --primary-a5: rgba(77, 137, 151, 0.5);
+            --primary-a6: rgba(77, 137, 151, 0.6);
+            --primary-a8: rgba(77, 137, 151, 0.8);
+            --secondary: #c1f9ff;
+            --secondary-a3: rgba(193, 249, 255, 0.3);
+            --secondary-a5: rgba(193, 249, 255, 0.5);
+            --secondary-a8: rgba(193, 249, 255, 0.8);
+            --text-color: #fff;
+            --shadow-color: #36656a;
+            --border-color: #e0fcff;
+            --title-text-color: #fff;
+            --title-text-shadow: #36656a;
+        }
+
+        /* 粉色主题 */
+        .theme-pink {
+            --primary: #ff6680;
+            --primary-a3: rgba(255, 102, 128, 0.3);
+            --primary-a5: rgba(255, 102, 128, 0.5);
+            --primary-a6: rgba(255, 102, 128, 0.6);
+            --primary-a8: rgba(255, 102, 128, 0.8);
+            --secondary: #ffb3c8;
+            --secondary-a3: rgba(255, 179, 200, 0.3);
+            --secondary-a5: rgba(255, 179, 200, 0.5);
+            --secondary-a8: rgba(255, 179, 200, 0.8);
+            --text-color: #fff;
+            --shadow-color: #b34766;
+            --border-color: #ffd9e4;
+            --title-text-color: #fff;
+            --title-text-shadow: #b34766;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-color);
+            font-family: 'hanyiwenhei', 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .dungeons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .dungeon-box {
+            background-color: var(--secondary-a5);
+            border-radius: 20px;
+            padding: 15px 25px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-a3);
+            box-shadow: 
+                0 5px 20px var(--primary-a3),
+                inset 0 0 20px var(--secondary-a3);
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .dungeon-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px var(--primary-a5),
+                inset 0 0 25px var(--secondary-a5);
+        }
+
+        .dungeon-border {
+            border: 2px dashed var(--border-color);
+            border-radius: 18px;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            opacity: 0.6;
+        }
+
+        .dungeon-title {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--bg-color);
+            padding: 0 15px;
+            font-family: 'LHTFONT', 'Microsoft YaHei', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--title-text-color);
+            text-shadow: 2px 2px 8px var(--title-text-shadow);
+            border-radius: 12px;
+            border: 1px solid var(--primary-a6);
+            backdrop-filter: blur(5px);
+        }
+
+        .dungeon-content {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .dungeon-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-color);
+            text-shadow: 1px 1px 3px var(--shadow-color);
+        }
+
+        .dungeon-icon {
+            font-size: 24px;
+            filter: drop-shadow(2px 2px 4px var(--shadow-color));
+        }
+
+        .count-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 2px 2px 6px var(--shadow-color);
+            background: var(--secondary-a3);
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--primary-a5);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .fairies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            flex: 1;
+        }
+
+        .fairy-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--primary-a3);
+            border-radius: 10px;
+            padding: 6px 10px;
+            border: 1px solid var(--primary-a5);
+            transition: all 0.2s ease;
+        }
+
+        .fairy-item:hover {
+            background: var(--primary-a5);
+            transform: scale(1.02);
+        }
+
+        .fairy-name {
+            font-size: 14px;
+            color: var(--text-color);
+            text-shadow: 1px 1px 2px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fairy-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--secondary);
+            text-shadow: 1px 1px 3px var(--shadow-color);
+            background: var(--secondary-a3);
+            padding: 2px 8px;
+            border-radius: 8px;
+            min-width: 25px;
+            text-align: center;
+        }
+
+        .special-items {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .special-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--shadow-color);
+            border-radius: 10px;
+            padding: 6px 10px;
+            border: 1px solid var(--primary-a6);
+            color: var(--text-color);
+        }
+
+        .special-item .count-value {
+            font-size: 18px;
+            background: var(--primary-a5);
+        }
+
+        .update-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff00;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .update-indicator.flash {
+            opacity: 1;
+        }
+
+        .error-indicator {
+            background: #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .updated {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        /* 适配不同尺寸 */
+        @media (max-width: 800px) {
+            .fairies-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .dungeon-content {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            body {
+                padding: 10px;
+                gap: 8px;
+            }
+            
+            .dungeon-box {
+                min-height: 70px;
+                padding: 10px 20px;
+            }
+            
+            .dungeon-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="theme-default">
+    <div class="update-indicator" id="updateIndicator"></div>
+    
+    <div class="dungeons-container" id="dungeonsContainer">
+        <!-- 地下城数据将在这里动态生成 -->
+    </div>
+
+    <script>
+        class DungeonDisplay {
+            constructor() {
+                this.apiBase = '/api';
+                this.updateInterval = 2000; // 2秒更新一次
+                this.currentData = null;
+                this.init();
+            }
+
+            async init() {
+                // 获取URL参数
+                const urlParams = new URLSearchParams(window.location.search);
+                const theme = urlParams.get('theme') || 'default';
+                const updateInterval = parseInt(urlParams.get('refresh') || '2000');
+                
+                this.updateInterval = Math.max(1000, updateInterval); // 最少1秒
+                
+                // 应用主题
+                this.applyTheme(theme);
+                
+                // 加载初始数据
+                await this.loadData();
+                
+                // 开始定时更新
+                this.startAutoUpdate();
+            }
+
+            applyTheme(theme) {
+                document.body.className = '';
+                switch(theme) {
+                    case 'dark-blue':
+                    case '1':
+                        document.body.classList.add('theme-dark-blue');
+                        break;
+                    case 'liuying':
+                    case '2':
+                        document.body.classList.add('theme-liuying');
+                        break;
+                    case 'pink':
+                    case '3':
+                        document.body.classList.add('theme-pink');
+                        break;
+                    default:
+                        document.body.classList.add('theme-default');
+                }
+            }
+
+            async loadData() {
+                try {
+                    const response = await fetch(`${this.apiBase}/obs/stats`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.updateDisplay(result.data);
+                        this.showUpdateIndicator(false);
+                    } else {
+                        this.showUpdateIndicator(true);
+                    }
+                } catch (error) {
+                    console.error('加载数据失败:', error);
+                    this.showUpdateIndicator(true);
+                }
+            }
+
+            updateDisplay(data) {
+                const container = document.getElementById('dungeonsContainer');
+                
+                // 检查数据是否有变化
+                const dataString = JSON.stringify(data);
+                const hasChanged = this.currentData !== dataString;
+                this.currentData = dataString;
+                
+                container.innerHTML = '';
+                
+                const dungeonConfig = {
+                    'line1': { name: '猫本', icon: '🐱', special: '猫珠', specialIcon: '🔮' },
+                    'line2': { name: '困高', icon: '⚔️', special: '崩坏', specialIcon: '💥' },
+                    'line3': { name: '塔本', icon: '🗼', special: null, specialIcon: null }
+                };
+
+                Object.entries(data).forEach(([lineKey, lineData]) => {
+                    const config = dungeonConfig[lineKey];
+                    if (!config) return;
+
+                    const dungeonBox = document.createElement('div');
+                    dungeonBox.className = 'dungeon-box';
+                    if (hasChanged) {
+                        dungeonBox.classList.add('updated');
+                    }
+
+                    const dungeonName = config.name;
+                    const dungeonCount = lineData[dungeonName] || 0;
+                    
+                    // 分离妖精和特殊物品
+                    const fairies = {};
+                    const specialItems = {};
+                    
+                    Object.entries(lineData).forEach(([itemName, value]) => {
+                        if (itemName === dungeonName) return;
+                        
+                        if (itemName.includes('妖精')) {
+                            fairies[itemName] = value;
+                        } else {
+                            specialItems[itemName] = value;
+                        }
+                    });
+
+                    dungeonBox.innerHTML = `
+                        <div class="dungeon-border"></div>
+                        <div class="dungeon-title">${config.icon} ${dungeonName}</div>
+                        <div class="dungeon-content">
+                            <div class="dungeon-count">
+                                <span class="dungeon-icon">${config.icon}</span>
+                                <span>次数:</span>
+                                <span class="count-value">${dungeonCount}</span>
+                            </div>
+                            
+                            <div class="fairies-grid">
+                                ${Object.entries(fairies).map(([name, value]) => `
+                                    <div class="fairy-item">
+                                        <span class="fairy-name">${this.getFairyIcon(name)} ${name.replace('妖精', '')}</span>
+                                        <span class="fairy-value">${value}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            ${Object.keys(specialItems).length > 0 ? `
+                                <div class="special-items">
+                                    ${Object.entries(specialItems).map(([name, value]) => `
+                                        <div class="special-item">
+                                            <span>${this.getSpecialIcon(name)} ${name}</span>
+                                            <span class="count-value">${value}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+
+                    container.appendChild(dungeonBox);
+                });
+            }
+
+            getFairyIcon(name) {
+                const icons = {
+                    '普通妖精': '🧚',
+                    '银色妖精': '🧚‍♀️',
+                    '金色妖精': '🧚‍♂️',
+                    '宝石妖精': '💎'
+                };
+                return icons[name] || '🧚';
+            }
+
+            getSpecialIcon(name) {
+                const icons = {
+                    '猫珠': '🔮',
+                    '崩坏': '💥'
+                };
+                return icons[name] || '⭐';
+            }
+
+            showUpdateIndicator(isError = false) {
+                const indicator = document.getElementById('updateIndicator');
+                indicator.className = 'update-indicator flash';
+                if (isError) {
+                    indicator.classList.add('error-indicator');
+                }
+                
+                setTimeout(() => {
+                    indicator.className = 'update-indicator';
+                }, 500);
+            }
+
+            startAutoUpdate() {
+                setInterval(() => {
+                    this.loadData();
+                }, this.updateInterval);
+            }
+        }
+
+        // 初始化显示器
+        const dungeonDisplay = new DungeonDisplay();
+    </script>
+</body>
+</html>

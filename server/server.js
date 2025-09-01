@@ -243,9 +243,29 @@ app.post('/api/stats/reset', (req, res) => {
     }
 });
 
+// OBS展示页面
+app.get('/obs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/obs.html'));
+});
+
+// 为OBS提供的轻量级数据接口
+app.get('/api/obs/stats', (req, res) => {
+    const stats = parseStatsFile();
+    
+    // 添加时间戳用于检测更新
+    const result = {
+        success: true,
+        timestamp: Date.now(),
+        data: stats
+    };
+    
+    res.json(result);
+});
+
 // 启动服务器
 app.listen(PORT, () => {
     console.log(`统计管理服务器运行在 http://localhost:${PORT}`);
     console.log(`管理界面: http://localhost:${PORT}`);
+    console.log(`OBS展示页面: http://localhost:${PORT}/obs`);
     console.log(`端口 ${PORT} 已启用，这是一个安全的非标准端口`);
 });
