@@ -294,15 +294,22 @@
                     
                     const lineTitle = document.createElement('div');
                     lineTitle.className = 'line-title';
-                    lineTitle.textContent = lineKey === 'line1' ? '第一行数据' : '第二行数据';
+                    
+                    // 根据行数和数据内容确定地下城名称
+                    let dungeonName = this.getDungeonNameFromData(lineKey, lineData);
+                    lineTitle.textContent = dungeonName;
                     lineGroup.appendChild(lineTitle);
 
                     Object.entries(lineData).forEach(([itemName, value]) => {
                         const statItem = document.createElement('div');
                         statItem.className = 'stat-item';
                         
+                        // 为不同类型的物品添加图标
+                        const itemIcon = this.getItemIcon(itemName);
+                        const displayName = `${itemIcon} ${itemName}`;
+                        
                         statItem.innerHTML = `
-                            <div class="stat-name">${itemName}</div>
+                            <div class="stat-name">${displayName}</div>
                             <div class="stat-value" id="${lineKey}-${itemName}-value">${value}</div>
                             <div class="stat-controls">
                                 <button class="btn btn-decrease" onclick="statsManager.updateStat('${lineKey}', '${itemName}', 'decrement')">-</button>
@@ -340,7 +347,23 @@
                                 valueElement.style.transform = 'scale(1)';
                             }, 200);
                         }
-                        this.showMessage(`${action === 'increment' ? '增加' : '减少'}成功`, 'success');
+                        
+                        // 如果是妖精物品，显示联动提示
+                        const fairyItems = ['普通妖精', '银色妖精', '金色妖精', '宝石妖精'];
+                        const isFairy = fairyItems.includes(item);
+                        let message = `${action === 'increment' ? '增加' : '减少'}成功`;
+                        if (isFairy) {
+                            message += '，副本次数已自动联动';
+                        }
+                        
+                        this.showMessage(message, 'success');
+                        
+                        // 重新加载数据以显示联动的变化
+                        if (isFairy) {
+                            setTimeout(() => {
+                                this.loadStats();
+                            }, 500);
+                        }
                     } else {
                         this.showMessage(result.message || '操作失败', 'error');
                     }
@@ -407,6 +430,39 @@
                     console.error('重置所有数据失败:', error);
                     this.showMessage('网络错误，重置失败', 'error');
                 }
+            }
+
+            getDungeonNameFromData(lineKey, lineData) {
+                // 从数据中查找地下城名称
+                const dungeonNames = ['猫本', '困高', '塔本'];
+                for (let name of dungeonNames) {
+                    if (lineData.hasOwnProperty(name)) {
+                        return `🏰 ${name}`;
+                    }
+                }
+                
+                // 如果没有找到，根据行号返回默认名称
+                const defaultNames = {
+                    'line1': '🏰 猫本',
+                    'line2': '🏰 困高', 
+                    'line3': '🏰 塔本'
+                };
+                return defaultNames[lineKey] || '🏰 未知地下城';
+            }
+
+            getItemIcon(itemName) {
+                const iconMap = {
+                    '猫本': '🐱',
+                    '困高': '⚔️',
+                    '塔本': '🗼',
+                    '普通妖精': '🧚',
+                    '银色妖精': '🧚‍♀️',
+                    '金色妖精': '🧚‍♂️',
+                    '宝石妖精': '💎',
+                    '猫珠': '🔮',
+                    '崩坏': '💥'
+                };
+                return iconMap[itemName] || '📊';
             }
 
             bindEvents() {

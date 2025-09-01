@@ -13,7 +13,42 @@ app.use(bodyParser.json());
 app.use(express.static('public')); // 静态文件服务
 
 // 统计文件路径
-const STATS_FILE_PATH = path.join(__dirname, '../count/地下城统计.txt');
+const STATS_FILE_PATH = path.join(__dirname, '../count/地下城统计新.txt');
+
+// 判断是否为妖精类型物品（排除猫珠和崩坏）
+function isFairyItem(itemName) {
+    const fairyItems = ['普通妖精', '银色妖精', '金色妖精', '宝石妖精'];
+    return fairyItems.includes(itemName);
+}
+
+// 根据行数获取对应的副本名称
+function getDungeonName(line) {
+    const dungeonMap = {
+        'line1': '猫本',
+        'line2': '困高', 
+        'line3': '塔本'
+    };
+    return dungeonMap[line];
+}
+
+// 增加副本次数
+function incrementDungeonCount(stats, line, amount) {
+    const dungeonName = getDungeonName(line);
+    if (dungeonName && stats[line]) {
+        if (!stats[line][dungeonName]) {
+            stats[line][dungeonName] = 0;
+        }
+        stats[line][dungeonName] += amount;
+    }
+}
+
+// 减少副本次数
+function decrementDungeonCount(stats, line, amount) {
+    const dungeonName = getDungeonName(line);
+    if (dungeonName && stats[line] && stats[line][dungeonName]) {
+        stats[line][dungeonName] = Math.max(0, stats[line][dungeonName] - amount);
+    }
+}
 
 // 解析统计文件内容
 function parseStatsFile() {
@@ -125,6 +160,11 @@ app.post('/api/stats/increment', (req, res) => {
     
     stats[line][item] += parseInt(amount);
     
+    // 妖精增加时自动增加副本次数的联动逻辑
+    if (isFairyItem(item)) {
+        incrementDungeonCount(stats, line, parseInt(amount));
+    }
+    
     if (saveStatsFile(stats)) {
         res.json({ success: true, message: '增加成功', data: stats });
     } else {
@@ -153,7 +193,14 @@ app.post('/api/stats/decrement', (req, res) => {
         stats[line][item] = 0;
     }
     
+    const oldValue = stats[line][item];
     stats[line][item] = Math.max(0, stats[line][item] - parseInt(amount));
+    const actualDecrement = oldValue - stats[line][item];
+    
+    // 妖精减少时自动减少副本次数的联动逻辑
+    if (isFairyItem(item) && actualDecrement > 0) {
+        decrementDungeonCount(stats, line, actualDecrement);
+    }
     
     if (saveStatsFile(stats)) {
         res.json({ success: true, message: '减少成功', data: stats });

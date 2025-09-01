@@ -10,7 +10,7 @@ echo.
 
 echo 📍 当前目录：%cd%
 echo 🌐 管理界面：http://localhost:13691
-echo 📁 统计文件：%cd%\..\count\地下城统计.txt
+echo 📁 统计文件：%cd%\..\count\地下城统计新.txt
 echo.
 
 if not exist "node_modules" (
